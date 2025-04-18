@@ -34,16 +34,16 @@ app.post("/api/analyze", upload.single("file"), async (req, res) => {
     const response = await fetch("https://predict.ultralytics.com", {
       method: "POST",
       headers: {
-        "x-api-key": process.env.ULTRALYTICS_API_KEY || "",
+        "x-api-key": "3b5056ac3a9ea918ac838037d777446ba97e9ad3fc",
       },
       body: formData,
     });
 
     const data = await response.json();
 
-    const detections = data.images[0]?.results || []; 
+    const detections = data.images[0]?.results || [];
 
-    console.log("Detected results:", detections); 
+    console.log("Detected results:", detections);
 
     // Load the image into a canvas
     const image = await loadImage(req.file.buffer);
@@ -53,10 +53,10 @@ app.post("/api/analyze", upload.single("file"), async (req, res) => {
     // Draw the image onto the canvas first
     ctx.drawImage(image, 0, 0);
 
-    ctx.strokeStyle = "red"; 
+    ctx.strokeStyle = "red";
     ctx.lineWidth = 2;
-    ctx.font = "12px Arial"; 
-    ctx.fillStyle = "red"; 
+    ctx.font = "12px Arial";
+    ctx.fillStyle = "red";
 
     for (const obj of detections) {
       const { x1, y1, x2, y2 } = obj.box;
@@ -74,7 +74,6 @@ app.post("/api/analyze", upload.single("file"), async (req, res) => {
     // Convert the canvas with bounding boxes to a buffer
     const outputBuffer = canvas.toBuffer("image/png");
 
-    
     res.set("Content-Type", "image/png");
     res.send(outputBuffer);
   } catch (error) {
