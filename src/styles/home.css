@@ -1,0 +1,85 @@
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #4f9eff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  /* background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a1a 50%,
+    #2d2d2d 100%
+  ); */
+  /* background: linear-gradient(
+    135deg,
+    #0a0a0a 50%,
+    #1a1a1a 100%
+  ); */
+  background-color: #101010;
+  background-attachment: fixed;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* color: #ffffff; */
+}
+
+/* Add subtle animated gradient overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(79, 158, 255, 0.05) 0%,
+    rgba(45, 123, 255, 0.05) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    #4f9eff 0%,
+    #2d7bff 100%
+  );
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    #5fa5ff 0%,
+    #3d8bff 100%
+  );
+}
