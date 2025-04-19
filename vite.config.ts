@@ -9,10 +9,10 @@ export default defineConfig({
   server: {
     proxy: {
       "/api/analyze": {
-        target: "http://jmradai.pythonanywhere.com", 
+        target: "https://jmradai.pythonanywhere.com", // Correct URL with HTTPS
         changeOrigin: true,
+        secure: true, // Ensure that the connection is secure
       },
     },
   },
 });
-

@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/api/analyze",
+      "dest": "http://jmradai.pythonanywhere.com/api/analyze"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
