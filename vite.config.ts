@@ -6,11 +6,6 @@ export default defineConfig({
   build: {
     outDir: "dist",
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
   },
   server: {
     port: 5173,

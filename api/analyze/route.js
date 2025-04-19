@@ -2,7 +2,6 @@ import { createCanvas, loadImage } from "canvas";
 import FormData from "form-data";
 import fetch from "node-fetch";
 
-// This tells Vercel to handle this as an API route
 export const config = {
   api: {
     bodyParser: false,
@@ -11,15 +10,12 @@ export const config = {
 
 export async function POST(req) {
   try {
-    // Get the file data (works in both Vercel and Express)
     let fileBuffer, fileName;
 
     if (req.file) {
-      // Express request
       fileBuffer = req.file.buffer;
       fileName = req.file.originalname;
     } else {
-      // Vercel request
       const formData = await req.formData();
       const file = formData.get("file");
       fileBuffer = Buffer.from(await file.arrayBuffer());
@@ -33,7 +29,7 @@ export async function POST(req) {
       });
     }
 
-    // Call YOLO API
+    // YOLOv8 API call
     const yoloFormData = new FormData();
     yoloFormData.append("file", fileBuffer, fileName);
     yoloFormData.append(
@@ -55,15 +51,12 @@ export async function POST(req) {
     const data = await yoloResponse.json();
     const detections = data.images[0]?.results || [];
 
-    // Process image
+    // Draw detections
     const image = await loadImage(fileBuffer);
     const canvas = createCanvas(image.width, image.height);
     const ctx = canvas.getContext("2d");
 
-    // Draw original image
     ctx.drawImage(image, 0, 0);
-
-    // Draw detections
     ctx.strokeStyle = "red";
     ctx.lineWidth = 2;
     ctx.font = "12px Arial";
@@ -72,15 +65,14 @@ export async function POST(req) {
     for (const obj of detections) {
       const { x1, y1, x2, y2 } = obj.box;
       const label = `${obj.name} (${(obj.confidence * 100).toFixed(1)}%)`;
-
       ctx.beginPath();
       ctx.rect(x1, y1, x2 - x1, y2 - y1);
       ctx.stroke();
       ctx.fillText(label, x1, y1 > 20 ? y1 - 5 : y1 + 20);
     }
 
-    // Return processed image
     const outputBuffer = canvas.toBuffer("image/png");
+
     return new Response(outputBuffer, {
       headers: { "Content-Type": "image/png" },
     });
