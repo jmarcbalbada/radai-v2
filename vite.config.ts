@@ -10,11 +10,7 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/api/analyze": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
+      "/api/analyze": "http://127.0.0.1:8000/",
     },
   },
 });
