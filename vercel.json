@@ -1,15 +1,8 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
-      "src": "/api/analyze",
-      "dest": "http://jmradai.pythonanywhere.com/api/analyze"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
