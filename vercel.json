@@ -1,19 +1,29 @@
 {
     "version": 2,
+    "builds": [
+      { 
+        "src": "api/**/*.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "package.json",
+        "use": "@vercel/static-build",
+        "config": { 
+          "distDir": "dist"
+        }
+      }
+    ],
     "routes": [
       {
-        "src": "/api/analyze",
-        "dest": "/api/analyze/route.js"
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      },
+      {
+        "handle": "filesystem"
       },
       {
         "src": "/(.*)",
         "dest": "/index.html"
       }
-    ],
-    "functions": {
-      "api/analyze/route.js": {
-        "memory": 1024,
-        "maxDuration": 60
-      }
-    }
+    ]
   }
