@@ -25,7 +25,7 @@ const Home = () => {
 
     try {
       const response = await fetch(
-        `http://jmradai.pythonanywhere.com/api/analyze`,
+        `https://jmradai.pythonanywhere.com/api/analyze`,
         {
           method: "POST",
           body: formData,
