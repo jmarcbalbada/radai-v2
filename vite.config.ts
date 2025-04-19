@@ -5,12 +5,14 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "dist",
-    sourcemap: true,
   },
   server: {
-    port: 5173,
     proxy: {
-      "/api/analyze": "http://127.0.0.1:8000/",
+      "/api/analyze": {
+        target: "http://jmradai.pythonanywhere.com", 
+        changeOrigin: true,
+      },
     },
   },
 });
+
