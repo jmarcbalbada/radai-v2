@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/analyze/route.js": {
+    "api/**/*.js": {
       "runtime": "@vercel/node@3.0.0"
     }
   },
