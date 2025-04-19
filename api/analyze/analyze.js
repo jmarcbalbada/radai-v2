@@ -8,7 +8,11 @@ export const config = {
   },
 };
 
-export async function POST(req) {
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
+
   try {
     let fileBuffer, fileName;
 
@@ -23,13 +27,9 @@ export async function POST(req) {
     }
 
     if (!fileBuffer) {
-      return new Response(JSON.stringify({ error: "No file uploaded" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return res.status(400).json({ error: "No file uploaded" });
     }
 
-    // YOLOv8 API call
     const yoloFormData = new FormData();
     yoloFormData.append("file", fileBuffer, fileName);
     yoloFormData.append(
@@ -51,7 +51,6 @@ export async function POST(req) {
     const data = await yoloResponse.json();
     const detections = data.images[0]?.results || [];
 
-    // Draw detections
     const image = await loadImage(fileBuffer);
     const canvas = createCanvas(image.width, image.height);
     const ctx = canvas.getContext("2d");
@@ -72,15 +71,10 @@ export async function POST(req) {
     }
 
     const outputBuffer = canvas.toBuffer("image/png");
-
-    return new Response(outputBuffer, {
-      headers: { "Content-Type": "image/png" },
-    });
+    res.setHeader("Content-Type", "image/png");
+    res.send(outputBuffer);
   } catch (error) {
     console.error("Error:", error);
-    return new Response(JSON.stringify({ error: "Failed to analyze image" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    res.status(500).json({ error: "Failed to analyze image" });
   }
 }
