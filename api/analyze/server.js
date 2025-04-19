@@ -14,28 +14,14 @@ app.use(express.json());
 
 app.post("/analyze", upload.single("file"), async (req, res) => {
   try {
-    console.log("HIT ANALYZE");
-    // Create a mock FormData object that matches what the route expects
-    req.formData = () => {
-      const formData = new FormData();
-      formData.get = (key) => {
-        if (key === "file") {
-          return {
-            arrayBuffer: async () => req.file.buffer,
-            name: req.file.originalname,
-          };
-        }
-        return null;
-      };
-      return Promise.resolve(formData);
-    };
-
     const response = await POST(req);
 
-    // Handle binary response
-    if (response.headers.get("Content-Type") === "image/png") {
+    // Convert Edge Response to Express response
+    const contentType = response.headers.get("Content-Type");
+    res.set("Content-Type", contentType);
+
+    if (contentType === "image/png") {
       const buffer = await response.arrayBuffer();
-      res.set("Content-Type", "image/png");
       res.send(Buffer.from(buffer));
     } else {
       const data = await response.json();
@@ -45,6 +31,11 @@ app.post("/analyze", upload.single("file"), async (req, res) => {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
+});
+
+// Health check endpoint
+app.get("/test", (req, res) => {
+  res.send("API is running. Use POST /analyze to analyze images.");
 });
 
 app.listen(port, () => {
