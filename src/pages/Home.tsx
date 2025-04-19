@@ -17,6 +17,7 @@ const Home = () => {
     content: string;
   };
 
+  // predict
   const analyzeImage = async (imageFile: File) => {
     setIsAnalyzing(true);
     const formData = new FormData();

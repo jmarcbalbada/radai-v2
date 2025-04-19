@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "routes": [
+      {
+        "src": "/api/analyze",
+        "dest": "/api/analyze/route.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
+      }
+    ],
+    "functions": {
+      "api/analyze/route.js": {
+        "memory": 1024,
+        "maxDuration": 60
+      }
+    }
+  }
