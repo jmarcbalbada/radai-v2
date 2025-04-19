@@ -22,9 +22,11 @@ const Home = () => {
     setIsAnalyzing(true);
     const formData = new FormData();
     formData.append("file", imageFile);
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    console.log("using apiUrl", apiUrl);
 
     try {
-      const response = await fetch("/api/analyze", {
+      const response = await fetch(`${apiUrl}/api/analyze`, {
         method: "POST",
         body: formData,
       });
