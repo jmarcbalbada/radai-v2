@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api/analyze": {
-        target: "https://jmradai.pythonanywhere.com", // Correct URL with HTTPS
+        target: "https://radai-analyzer-1064982089951.us-central1.run.app", // Correct URL with HTTPS
         changeOrigin: true,
         secure: true, // Ensure that the connection is secure
       },

@@ -22,10 +22,13 @@ const Home = () => {
     setIsAnalyzing(true);
     const formData = new FormData();
     formData.append("file", imageFile);
+    console.log(
+      "using https://radai-analyzer-1064982089951.us-central1.run.app/"
+    );
 
     try {
       const response = await fetch(
-        `https://jmradai.pythonanywhere.com/api/analyze`,
+        `https://radai-analyzer-1064982089951.us-central1.run.app/api/analyze`,
         {
           method: "POST",
           body: formData,
